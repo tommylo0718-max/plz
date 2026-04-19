@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+
+        /* Quiz Specific Styles */
+        .quiz-container {
+            background-color: #ffffff;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        #question-counter {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        #question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1a3a5c;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e1e8ed;
+            transition: all 0.2s ease;
+        }
+
+        .option-label:hover {
+            background-color: #e8f4f8;
+            border-color: #2d6a9f;
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .quiz-button {
+            padding: 12px 24px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-right: 10px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        #submit-btn {
+            background-color: #1a3a5c;
+            color: white;
+        }
+
+        #submit-btn:hover {
+            background-color: #2d6a9f;
+        }
+
+        #submit-btn:disabled {
+            background-color: #cccccc;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        #next-btn {
+            background-color: #28a745;
+            color: white;
+            display: none;
+        }
+
+        #next-btn:hover {
+            background-color: #218838;
+        }
+
+        #restart-btn {
+            background-color: #6c757d;
+            color: white;
+            display: none;
+        }
+
+        #restart-btn:hover {
+            background-color: #5a6268;
+        }
+
+        #feedback-area {
+            margin-top: 20px;
+            padding: 15px;
+            font-weight: 500;
+            font-size: 1.1em;
+            border-radius: 4px;
+        }
+
+        .incorrect {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        .correct {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .score-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+
+        .score-text {
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            #question-text {
+                font-size: 1.1em;
+            }
+            
+            .quiz-button {
+                padding: 10px 18px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html">Discovery</a></li>
+                    <li><a href="./gallery.html">Gallery</a></li>
+                    <li><a href="./quiz.html" class="active">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>Interactive Quiz</h1>
+                <p>Test Your Knowledge About LLM Bias</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>Quiz: Understanding Bias in Language Models</h2>
+            <p>Answer the following questions to test your understanding of bias in Large Language Models. Select the best answer for each question.</p>
+
+            <div class="quiz-container">
+                <div id="question-counter">Question 1 of 5</div>
+                <div id="question-text">Loading question...</div>
+                
+                <form id="quiz-form">
+                    <div id="options-container"></div>
+                    
+                    <div class="button-group">
+                        <button class="quiz-button" id="submit-btn" type="submit">Submit Answer</button>
+                        <button class="quiz-button" id="next-btn" type="button" onclick="loadNextQuestion()">Next Question</button>
+                        <button class="quiz-button" id="restart-btn" type="button" onclick="restartQuiz()">Restart Quiz</button>
+                    </div>
+                </form>
+                
+                <div id="feedback-area"></div>
+            </div>
+        </article>
+
+        <div class="bottom-navigation">
+            <a href="./gallery.html" class="bottom-nav-button previous">Previous Gallery</a>
+            <a href="./index.html" class="bottom-nav-button next">Back to Home</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "Which of the following best describes \"bias\" in Large Language Models (LLMs)?",
+                options: [
+                    "Random errors in predictions",
+                    "Systematic tendencies that favor or disadvantage certain groups",
+                    "Technical glitches in training data",
+                    "Differences in computational speed"
+                ],
+                correctAnswer: "Systematic tendencies that favor or disadvantage certain groups"
+            },
+            {
+                question: "What is a common source of gender and ethnicity bias in LLMs?",
+                options: [
+                    "Hardware limitations",
+                    "Overuse of mathematical models",
+                    "Training data reflecting societal stereotypes",
+                    "Lack of internet connectivity"
+                ],
+                correctAnswer: "Training data reflecting societal stereotypes"
+            },
+            {
+                question: "Which evaluation method is often used to detect bias in LLMs?",
+                options: [
+                    "Confusion matrices",
+                    "Prompt-based testing with demographic variations",
+                    "Hardware benchmarking",
+                    "Random sampling of outputs"
+                ],
+                correctAnswer: "Prompt-based testing with demographic variations"
+            },
+            {
+                question: "Why is bias in LLMs considered problematic?",
+                options: [
+                    "It reduces the model's computational efficiency",
+                    "It can reinforce harmful stereotypes and discrimination",
+                    "It makes the model slower to respond",
+                    "It prevents the model from generating creative text"
+                ],
+                correctAnswer: "It can reinforce harmful stereotypes and discrimination"
+            },
+            {
+                question: "Which of the following is an example of gender bias in LLM outputs?",
+                options: [
+                    "Associating men with leadership roles more often than women",
+                    "Misclassifying a sentence grammatically",
+                    "Producing longer responses for certain queries",
+                    "Using more technical jargon in answers"
+                ],
+                correctAnswer: "Associating men with leadership roles more often than women"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionCounterEl = document.getElementById("question-counter");
+        const questionTextEl = document.getElementById("question-text");
+        const optionsContainerEl = document.getElementById("options-container");
+        const submitBtn = document.getElementById("submit-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const restartBtn = document.getElementById("restart-btn");
+        const feedbackArea = document.getElementById("feedback-area");
+
+        function loadQuestion() {
+            submitBtn.disabled = false;
+            nextBtn.style.display = "none";
+            feedbackArea.innerHTML = "";
+            feedbackArea.className = "";
+            optionsContainerEl.innerHTML = "";
+
+            const currentQuestion = quizData[currentQuestionIndex];
+
+            questionCounterEl.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+            questionTextEl.innerText = currentQuestion.question;
+
+            currentQuestion.options.forEach((option, index) => {
+                const label = document.createElement("label");
+                label.className = "option-label";
+                
+                const radioInput = document.createElement("input");
+                radioInput.type = "radio";
+                radioInput.name = "quiz-option";
+                radioInput.value = option;
+                radioInput.id = `option${index}`;
+                radioInput.required = true;
+
+                label.appendChild(radioInput);
+                label.appendChild(document.createTextNode(option));
+                
+                optionsContainerEl.appendChild(label);
+            });
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('input[name="quiz-option"]:checked');
+            
+            if (!selectedOption) {
+                alert("Please select an answer before submitting.");
+                return;
+            }
+
+            const userAnswer = selectedOption.value;
+            const currentQuestion = quizData[currentQuestionIndex];
+
+            const allRadios = document.querySelectorAll('input[name="quiz-option"]');
+            allRadios.forEach(radio => radio.disabled = true);
+
+            submitBtn.disabled = true;
+            nextBtn.style.display = "inline-block";
+
+            if (userAnswer === currentQuestion.correctAnswer) {
+                feedbackArea.innerHTML = "Correct! Well done.";
+                feedbackArea.className = "correct";
+                score++;
+            } else {
+                feedbackArea.innerHTML = `Incorrect. The correct answer is: "${currentQuestion.correctAnswer}"`;
+                feedbackArea.className = "incorrect";
+            }
+        }
+
+        function loadNextQuestion() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                questionCounterEl.innerText = "Quiz Complete!";
+                questionTextEl.innerText = "";
+                optionsContainerEl.innerHTML = `
+                    <div class="score-display">
+                        <div class="score-number">${score} / ${quizData.length}</div>
+                        <div class="score-text">Your Score</div>
+                    </div>
+                `;
+                submitBtn.style.display = "none";
+                nextBtn.style.display = "none";
+                restartBtn.style.display = "inline-block";
+                feedbackArea.innerHTML = "";
+                feedbackArea.className = "";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            submitBtn.style.display = "inline-block";
+            restartBtn.style.display = "none";
+            
+            loadQuestion();
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            checkAnswer();
+        });
+
+        loadQuestion();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
