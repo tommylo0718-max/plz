@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+
+        /* Gallery Specific Styles */
+        .gallery-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            background-color: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #2d6a9f;
+            background-color: #f8f9fa;
+        }
+
+        .filter-btn.active {
+            background-color: #1a3a5c;
+            color: white;
+            border-color: #1a3a5c;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .gallery-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            background-color: #f8f9fa;
+            display: block;
+        }
+
+        .gallery-image-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(135deg, #e8f4f8, #d1ecf1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a3a5c;
+            font-weight: 500;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .gallery-caption {
+            padding: 0.7rem;
+            border-top: 1px solid #e1e8ed;
+        }
+
+        .gallery-caption h4 {
+            color: #1a3a5c;
+            margin-bottom: 0.2rem;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+        }
+
+        .gallery-caption p {
+            color: #6c757d;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .model-badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge-gemini {
+            background-color: #4285F4;
+            color: white;
+        }
+
+        .badge-copilot {
+            background-color: #107C10;
+            color: white;
+        }
+
+        .badge-ideogram {
+            background-color: #E65100;
+            color: white;
+        }
+
+        .badge-stable {
+            background-color: #9C27B0;
+            color: white;
+        }
+
+        .badge-baseline {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .badge-mitigation {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 2001;
+            transition: color 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            color: #ddd;
+        }
+
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1rem;
+        }
+
+        .lightbox-prev, .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            padding: 1rem;
+            transition: color 0.3s ease;
+            z-index: 2001;
+            user-select: none;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-prev:hover, .lightbox-next:hover {
+            color: #ddd;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .image-count {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #2d6a9f;
+        }
+
+        .page-btn.active {
+            background-color: #1a3a5c;
+            color: white;
+            border-color: #1a3a5c;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .lightbox-prev, .lightbox-next {
+                font-size: 30px;
+                padding: 0.5rem;
+            }
+
+            .gallery-caption {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html">Discovery</a></li>
+                    <li><a href="./gallery.html" class="active">Gallery</a></li>
+                    <li><a href="./quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>Image Gallery</h1>
+                <p>All 200 Generated Images from Our Study (50 per LLM)</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>Browse Generated Images</h2>
+            <p>This gallery displays all 200 images generated during our study. Each LLM generated 50 images total: 25 baseline images (5 per occupation) and 25 mitigation images (5 per occupation). Use the filters below to narrow your view. Click any image to enlarge.</p>
+
+            <!-- Filter Controls -->
+            <div class="gallery-controls">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all" data-type="model">All Models</button>
+                    <button class="filter-btn" data-filter="gemini" data-type="model">Gemini (50)</button>
+                    <button class="filter-btn" data-filter="copilot" data-type="model">Copilot (50)</button>
+                    <button class="filter-btn" data-filter="ideogram" data-type="model">Ideogram (50)</button>
+                    <button class="filter-btn" data-filter="stable" data-type="model">Stable Diffusion (50)</button>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all" data-type="occupation">All Occupations</button>
+                    <button class="filter-btn" data-filter="ceo" data-type="occupation">CEO</button>
+                    <button class="filter-btn" data-filter="doctor" data-type="occupation">Doctor</button>
+                    <button class="filter-btn" data-filter="police" data-type="occupation">Police Officer</button>
+                    <button class="filter-btn" data-filter="teacher" data-type="occupation">Teacher</button>
+                    <button class="filter-btn" data-filter="nurse" data-type="occupation">Nurse</button>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all" data-type="test">All Tests</button>
+                    <button class="filter-btn" data-filter="baseline" data-type="test">Baseline Test</button>
+                    <button class="filter-btn" data-filter="mitigation" data-type="test">Mitigation Test</button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div id="galleryGrid" class="gallery-grid"></div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination"></div>
+
+            <div id="imageCount" class="image-count"></div>
+        </article>
+
+        <div class="bottom-navigation">
+            <a href="./discovery.html" class="bottom-nav-button previous">Previous Discovery</a>
+            <a href="./quiz.html" class="bottom-nav-button next">Next Quiz</a>
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <span class="lightbox-prev">&lt;</span>
+        <span class="lightbox-next">&gt;</span>
+        <div class="lightbox-content">
+            <img id="lightboxImage" class="lightbox-image" src="" alt="">
+            <div id="lightboxCaption" class="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Gallery Data =====
+        // 50 images per LLM = 200 total images
+        // Image naming convention: (model name)(number).jpg
+        // Examples: gemini1.jpg, gemini2.jpg ... gemini50.jpg
+
+        const galleryData = [];
+
+        const models = [
+            { id: 'gemini', name: 'Gemini', badge: 'badge-gemini' },
+            { id: 'copilot', name: 'Copilot', badge: 'badge-copilot' },
+            { id: 'ideogram', name: 'Ideogram', badge: 'badge-ideogram' },
+            { id: 'stable', name: 'Stable Diffusion', badge: 'badge-stable' }
+        ];
+
+        const occupations = [
+            { id: 'ceo', name: 'CEO' },
+            { id: 'doctor', name: 'Doctor' },
+            { id: 'police', name: 'Police Officer' },
+            { id: 'teacher', name: 'Teacher' },
+            { id: 'nurse', name: 'Nurse' }
+        ];
+
+        // Generate gallery data - 50 images per model
+        models.forEach(model => {
+            // 50 images per model
+            for (let i = 1; i <= 50; i++) {
+                // Determine test type: 1-25 baseline, 26-50 mitigation
+                const test = i <= 25 ? 'baseline' : 'mitigation';
+                const testName = i <= 25 ? 'Baseline' : 'Mitigation';
+                const testBadge = i <= 25 ? 'badge-baseline' : 'badge-mitigation';
+                
+                // Determine occupation based on image number
+                let occupationIndex;
+                let imageInSet;
+                
+                if (i <= 25) {
+                    // Baseline: images 1-25
+                    // Each occupation gets 5 images
+                    // 1-5: CEO, 6-10: Doctor, 11-15: Police, 16-20: Teacher, 21-25: Nurse
+                    imageInSet = i;
+                } else {
+                    // Mitigation: images 26-50
+                    // Each occupation gets 5 images
+                    // 26-30: CEO, 31-35: Doctor, 36-40: Police, 41-45: Teacher, 46-50: Nurse
+                    imageInSet = i;
+                }
+                
+                // Map image number to occupation
+                if (imageInSet >= 1 && imageInSet <= 5) occupationIndex = 0;      // CEO
+                else if (imageInSet >= 6 && imageInSet <= 10) occupationIndex = 1; // Doctor
+                else if (imageInSet >= 11 && imageInSet <= 15) occupationIndex = 2; // Police
+                else if (imageInSet >= 16 && imageInSet <= 20) occupationIndex = 3; // Teacher
+                else if (imageInSet >= 21 && imageInSet <= 25) occupationIndex = 4; // Nurse
+                else if (imageInSet >= 26 && imageInSet <= 30) occupationIndex = 0; // CEO (mitigation)
+                else if (imageInSet >= 31 && imageInSet <= 35) occupationIndex = 1; // Doctor (mitigation)
+                else if (imageInSet >= 36 && imageInSet <= 40) occupationIndex = 2; // Police (mitigation)
+                else if (imageInSet >= 41 && imageInSet <= 45) occupationIndex = 3; // Teacher (mitigation)
+                else occupationIndex = 4; // Nurse (mitigation: 46-50)
+                
+                const occupation = occupations[occupationIndex];
+                
+                // Calculate repetition number (1-5 for each occupation/test combo)
+                let repetition;
+                if (i <= 25) {
+                    repetition = ((i - 1) % 5) + 1;
+                } else {
+                    repetition = ((i - 26) % 5) + 1;
+                }
+                
+                galleryData.push({
+                    model: model.id,
+                    modelName: model.name,
+                    badge: model.badge,
+                    occupation: occupation.id,
+                    occupationName: occupation.name,
+                    test: test,
+                    testName: testName,
+                    testBadge: testBadge,
+                    imageNumber: i,
+                    repetition: repetition,
+                    filename: `./Images/Gallery/${model.id}${i}.jpg`,
+                    displayName: `${model.name} - ${occupation.name} (${testName} #${repetition})`
+                });
+            }
+        });
+
+        // ===== Pagination =====
+        const ITEMS_PER_PAGE = 24;
+        let currentPage = 1;
+        let currentFilter = { model: 'all', occupation: 'all', test: 'all' };
+        let filteredImages = [];
+        let currentLightboxIndex = 0;
+
+        function filterImages() {
+            filteredImages = galleryData.filter(item => {
+                return (currentFilter.model === 'all' || item.model === currentFilter.model) &&
+                       (currentFilter.occupation === 'all' || item.occupation === currentFilter.occupation) &&
+                       (currentFilter.test === 'all' || item.test === currentFilter.test);
+            });
+        }
+
+        function renderGallery() {
+            filterImages();
+            
+            const grid = document.getElementById('galleryGrid');
+            const countDisplay = document.getElementById('imageCount');
+            const paginationDiv = document.getElementById('pagination');
+            
+            const totalPages = Math.ceil(filteredImages.length / ITEMS_PER_PAGE);
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredImages.length);
+            const pageImages = filteredImages.slice(startIndex, endIndex);
+
+            if (filteredImages.length === 0) {
+                grid.innerHTML = '<div class="no-results">No images match the selected filters.</div>';
+                countDisplay.textContent = '';
+                paginationDiv.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            pageImages.forEach((item, idx) => {
+                const globalIndex = startIndex + idx;
+                html += `
+                    <div class="gallery-item" data-global-index="${globalIndex}" onclick="openLightbox(${globalIndex})">
+                        <img src="${item.filename}" alt="${item.displayName}" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="gallery-image-placeholder" style="display: none;">
+                            ${item.modelName}<br>${item.occupationName}<br>${item.testName} #${item.repetition}
+                        </div>
+                        <div class="gallery-caption">
+                            <h4>
+                                <span class="model-badge ${item.badge}">${item.modelName}</span>
+                                <span class="model-badge ${item.testBadge}">${item.testName}</span>
+                            </h4>
+                            <p>${item.occupationName} - Image ${item.imageNumber}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            countDisplay.textContent = `Showing ${startIndex + 1}-${endIndex} of ${filteredImages.length} images`;
+
+            // Render pagination
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const paginationDiv = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                paginationDiv.innerHTML = '';
+                return;
+            }
+
+            let paginationHtml = '';
+            
+            // Previous button
+            paginationHtml += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">Previous</button>`;
+            
+            // Page numbers
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage + 1 < maxVisible) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            if (startPage > 1) {
+                paginationHtml += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) paginationHtml += `<span style="padding: 0.5rem;">...</span>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) paginationHtml += `<span style="padding: 0.5rem;">...</span>`;
+                paginationHtml += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // Next button
+            paginationHtml += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Next</button>`;
+            
+            paginationDiv.innerHTML = paginationHtml;
+        }
+
+        window.goToPage = function(page) {
+            const totalPages = Math.ceil(filteredImages.length / ITEMS_PER_PAGE);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderGallery();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // ===== Filter Functionality =====
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filterType = this.dataset.type;
+                const filterValue = this.dataset.filter;
+                
+                this.parentElement.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                currentFilter[filterType] = filterValue;
+                currentPage = 1;
+                renderGallery();
+            });
+        });
+
+        // ===== Lightbox Functionality =====
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+
+        window.openLightbox = function(globalIndex) {
+            currentLightboxIndex = globalIndex;
+            updateLightboxImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function updateLightboxImage() {
+            const item = filteredImages[currentLightboxIndex];
+            lightboxImage.src = item.filename;
+            lightboxCaption.textContent = item.displayName;
+            
+            lightboxImage.onerror = function() {
+                this.style.display = 'none';
+                const placeholder = document.createElement('div');
+                placeholder.className = 'gallery-image-placeholder';
+                placeholder.style.display = 'flex';
+                placeholder.style.minHeight = '300px';
+                placeholder.style.minWidth = '300px';
+                placeholder.innerHTML = `${item.modelName}<br>${item.occupationName}<br>${item.testName} #${item.repetition}`;
+                const content = document.querySelector('.lightbox-content');
+                const existingPlaceholder = content.querySelector('.gallery-image-placeholder');
+                if (existingPlaceholder) existingPlaceholder.remove();
+                content.insertBefore(placeholder, lightboxCaption);
+            };
+            
+            lightboxImage.onload = function() {
+                this.style.display = 'block';
+                const placeholder = document.querySelector('.lightbox-content .gallery-image-placeholder');
+                if (placeholder) placeholder.remove();
+            };
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextImage() {
+            currentLightboxIndex = (currentLightboxIndex + 1) % filteredImages.length;
+            updateLightboxImage();
+        }
+
+        function prevImage() {
+            currentLightboxIndex = (currentLightboxIndex - 1 + filteredImages.length) % filteredImages.length;
+            updateLightboxImage();
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', prevImage);
+        nextBtn.addEventListener('click', nextImage);
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') prevImage();
+            else if (e.key === 'ArrowRight') nextImage();
+        });
+
+        // Initialize
+        renderGallery();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
