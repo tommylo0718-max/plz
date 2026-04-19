@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Models Tested - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+        .model-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .model-table th {
+            background-color: #1a3a5c;
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        .model-table td {
+            padding: 0.8rem;
+            border: 1px solid #e1e8ed;
+        }
+        .model-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html" class="active">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html">Discovery</a></li>
+                    <li><a href="./quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>Models Tested</h1>
+                <p>The Four LLM Systems We Evaluated</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>Models Tested</h2>
+            <p>We tested four LLM-based image generation systems, divided into two large models (Gemini and Copilot) and two small models (Ideogram and Stable Diffusion).</p>
+            <h3>Model Attributes</h3>
+            <table class="model-table">
+                <thead>
+                    <tr><th>Model</th><th>Developer</th><th>Model Size</th><th>Model Type</th><th>Access Method</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Gemini</strong></td><td>Google</td><td>Large</td><td>Multimodal LLM</td><td>Web interface / API</td></tr>
+                    <tr><td><strong>Copilot</strong></td><td>Microsoft</td><td>Large</td><td>DALL-E based</td><td>Web interface / Integrated</td></tr>
+                    <tr><td><strong>Ideogram</strong></td><td>Ideogram</td><td>Small</td><td>Text-to-image model</td><td>Web interface</td></tr>
+                    <tr><td><strong>Stable Diffusion</strong></td><td>Stability AI</td><td>Small</td><td>Open-source diffusion model</td><td>Web interface / Local deployment</td></tr>
+                </tbody>
+            </table>
+        </article>
+
+        <div class="bottom-navigation">
+            <a href="./methodology_hypotheses.html" class="bottom-nav-button previous">Previous Hypotheses</a>
+            <a href="./methodology_occupations.html" class="bottom-nav-button next">Next Occupations</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

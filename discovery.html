@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th, td {
+            border: 1px solid #e1e8ed;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        th {
+            background-color: #1a3a5c;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html" class="active">Discovery</a></li>
+                    <li><a href="./quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>Discovery</h1>
+                <p>What We Discovered Through This Research</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>Discovery 1 — Gender Bias in Baseline Outputs</h2>
+            <p>The single most striking finding in the baseline gender data was not the prevalence of stereotyping but its direction. Gemini, the only model designed with explicit equity interventions, produced a 76% female baseline overall, including 80% female CEOs and 80% female Doctors. Rather than indicating an absence of gender bias, this reveals a different form of it: Gemini's prior fine-tuning appears to have overcorrected, introducing a female skew that misrepresents traditionally mixed or male-dominated professions. Gemini did not escape stereotyping; it replaced one directional bias with another.</p>
+            <table>
+                <thead>
+                    <tr><th>Model</th><th>Baseline Male %</th><th>Baseline Female %</th><th>Most Biased Role</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Gemini</td><td>24%</td><td>76%</td><td>Nurse: 100% female; CEO/Doctor: 80% female</td></tr>
+                    <tr><td>Ideogram</td><td>60%</td><td>40%</td><td>CEO/Doctor/Police: 100% male; Teacher/Nurse: 100% female</td></tr>
+                    <tr><td>Stable Diffusion</td><td>40%</td><td>60%</td><td>CEO/Police: 100% male; Doctor/Nurse/Teacher: 100% female</td></tr>
+                    <tr><td>Copilot</td><td>64%</td><td>36%</td><td>Doctor/Police: 100% male; Nurse: 100% female</td></tr>
+                </tbody>
+            </table>
+            <p>The remaining three models exhibited conventional male-coded authority bias, though with structurally distinct patterns. Copilot presented the most extreme case: Doctor and Police Officer were 100% male and Nurse 100% female, producing an overall male dominance of 64%. Ideogram exhibited a "hard binary" where CEO, Doctor, and Police Officer were 100% male while Teacher and Nurse were 100% female, with zero gender overlap across any profession. Stable Diffusion mirrored this role segregation, but its 40% male aggregate conceals an internal contradiction: 100% male CEO and Police Officer outputs were offset by 100% female Doctor, Nurse, and Teacher outputs, forming a role-segregated inversion rather than a straightforward male bias.</p>
+            <p>Crucially, no model produced a gender-balanced baseline for any single occupation. This confirms that the absence of explicit instruction is itself a design choice with discriminatory consequences. As Gupta et al. (2025) observed, models treat historical statistical associations between gender and profession as standard patterns rather than social defects to be corrected. Gemini's anomalous result further shows that even models designed with equity interventions are not immune to this failure mode, demonstrating that debiasing efforts applied at the training stage can themselves encode imbalance if not carefully calibrated.</p>
+
+            <h2>Discovery 2 — Racial Bias in Baseline Outputs</h2>
+            <p>The most counterintuitive finding in the baseline racial data came not from the models with the highest White representation, but from the one that deviated from it. Stable Diffusion generated 80% Asian Teachers in its unmodified baseline, making it the only model, and the only role across all four models, where a non-White group held dominant representation without any diversity instruction. This finding directly challenges the assumption that AI image bias is uniformly "White-default": bias can be profession-specific and culturally localised, shaped by the particular composition of training data for each occupational category rather than a single overarching racial preference.</p>
+            <table>
+                <thead>
+                    <tr><th>Model</th><th>White %</th><th>Black %</th><th>Asian & Others %</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Gemini</td><td>68%</td><td>16%</td><td>16%</td></tr>
+                    <tr><td>Ideogram</td><td>88%</td><td>12%</td><td>0%</td></tr>
+                    <tr><td>Stable Diffusion</td><td>72%</td><td>4%</td><td>24%</td></tr>
+                    <tr><td>Copilot</td><td>100%</td><td>0%</td><td>0%</td></tr>
+                </tbody>
+            </table>
+            <p>Beyond this anomaly, White dominance was pervasive and severe. Copilot produced a 100% White output across all five professions and all five images per profession, a uniformity not observed in any other model or any other variable in this study. Ideogram similarly erased Asian and other non-Black minorities entirely, producing 0% Asian representation across all 25 baseline images, an exclusion as absolute as Copilot's White dominance but simply directed differently. Even Gemini, the most balanced model at 68% White, concealed profession-level exclusions: it generated zero Black Doctors across its entire baseline, demonstrating that aggregate balance can coexist with categorical racial segregation by role.</p>
+            <p>This pattern reflects the well-documented phenomenon of training data skew: internet-sourced datasets over-represent Western, White subjects in professional contexts. As Hitti et al. (2023) noted, when AI lacks curated, representative data, it encodes those imbalances as its default reality. Stable Diffusion's Teacher anomaly extends this explanation. If East Asian educational content is disproportionately represented in its training corpus, profession-specific non-White bias becomes a predictable artefact of that distribution, not an exception to the rule of White dominance but a manifestation of the same underlying mechanism operating on different data.</p>
+
+            <h2>Discovery 3 — Effect of Diversity Prompting on Race</h2>
+            <p>Diversity prompting succeeded in shifting racial outputs, but in doing so, it exposed a more fundamental problem: these models do not understand diversity as plurality. When a diversity instruction was added, all four models responded, but none achieved true distributional balance, and the nature of their failures revealed a shared structural flaw in how the concept of "diversity" is encoded.</p>
+            <table>
+                <thead>
+                    <tr><th>Model</th><th>White % After</th><th>Black % After</th><th>Asian % After</th><th>Key Observation</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Gemini</td><td>12%</td><td>68%</td><td>20%</td><td>Overcorrected to Black majority</td></tr>
+                    <tr><td>Ideogram</td><td>52%</td><td>36%</td><td>12%</td><td>Most gradual, proportional improvement</td></tr>
+                    <tr><td>Stable Diffusion</td><td>40%</td><td>36%</td><td>24%</td><td>Most balanced post-prompt result</td></tr>
+                    <tr><td>Copilot</td><td>48%</td><td>28%</td><td>24%</td><td>Strongest improvement from 100% White baseline</td></tr>
+                </tbody>
+            </table>
+            <p>Gemini's result was the most dramatic: White representation collapsed from 68% to 12% while Black subjects rose to 68%, replicating the original White dominance in a different group. This is the second time Gemini exhibited this inversion pattern. In gender, it skewed female; in race, it skewed Black, suggesting its fine-tuning interventions respond to one axis of underrepresentation at a time, producing sequential overcorrections rather than intersectional balance. Copilot achieved the most meaningful directional improvement, shifting from 100% White to 48% White with 52% non-White collectively. Stable Diffusion produced the most proportional outcome at 40% White, 36% Black, and 24% Asian, suggesting its more complex, prompt-driven architecture may support more granular instruction-following.</p>
+            <p>Despite these shifts, Asian and other minority groups never exceeded 24% representation under any condition, and in Ideogram's post-prompt results, Asian representation stood at just 12%, lower than Gemini's pre-prompt baseline. This points to a structural flaw in how these models conceptualise diversity itself. Rather than distributing representation across the full spectrum of human ethnicity, models appear to interpret "diverse" as an instruction to introduce Black subjects specifically, functioning as a Black-White binary switch rather than a genuine broadening of representation. Hispanic, South Asian, East Asian, and other ethnic groups are effectively invisible to this process, regardless of how explicitly the instruction is framed. The bias is not only in the model's default outputs; it is embedded in the model's understanding of what "diversity" means. This raises the question of whether targeted, group-specific prompting produces more equitable distributions, a limitation directly addressed in the following section.</p>
+
+            <h2>Discovery 4 — The Overcorrection Problem</h2>
+            <p>The most consequential finding of this investigation is that diversity prompting does not debias; it merely relocates the bias. Gemini's racial output shifted from 68% White to 68% Black, a precise numerical mirror. Ideogram's gender distribution swung from 60% male to 72% female, an overshoot past equality rather than a correction toward it. Copilot's gender output moved from 64% male to 32% male, another inversion rather than a convergence. The dominant group changed; the dominance did not.</p>
+            <p>This pattern was not isolated to a single model or dimension. Gemini overcorrected in both gender and race. Ideogram and Copilot overcorrected in gender. Across these cases, the structure of the failure is identical: the model has no internal representation of balance, only of which group to centre. This is not a calibration error; it is a structural one. These models' internal associations are not recalibrated by diversity language; they are simply triggered in reverse. As the Gemini team report noted, explicit compositional directives such as "generate one White and one Asian police officer" are far more effective than broad appeals to diversity.</p>
+            <p>"Diverse" is not a solution. In the hands of a biased model, it is simply a different instruction to discriminate.</p>
+
+            <h2>Conclusion</h2>
+            <p>This investigation finds that diversity prompting does not debias AI image generators; it relocates their bias, replacing one dominant group with another while leaving the underlying stereotyping mechanism intact. Across all four models tested, namely Gemini, Ideogram, Stable Diffusion, and Microsoft Copilot, baseline outputs defaulted to deeply embedded social prejudices: authoritative roles such as CEO and Police Officer were assigned to male, White subjects, while caregiving roles such as Nurse defaulted to female. Copilot represented the most extreme case, generating 100% White subjects across all 25 baseline images, a stark illustration that AI does not merely reflect historical bias but actively normalises it as statistical fact.</p>
+            <p>Intervention tests revealed that diversity prompting, while accessible and easy to implement, is neither reliable nor sufficient. No model achieved true proportional representation in either gender or race. Models most responsive to the diversity prompt, namely Gemini and Copilot, were simultaneously the most prone to overcorrection, swapping one dominant group for another rather than distributing representation equitably. Stable Diffusion, despite requiring the most technically detailed prompting, produced the most racially balanced post-prompt result, suggesting that effective intervention requires specificity at the instruction level, naming groups, proportions, and roles explicitly, rather than delegating fairness to a model whose internal representation of "diversity" is itself biased. Notably, Stable Diffusion's baseline also produced 80% Asian Teachers without any instruction, demonstrating that bias is not uniformly White-default but profession-specific and shaped by the cultural composition of training data.</p>
+            <p>Most critically, this study demonstrates that the word "diverse" is not a neutral instruction. In the hands of a biased model, it functions as a trigger to shift weight toward a different end of an existing binary, leaving the underlying stereotyping mechanism entirely intact and rendering Asian, Hispanic, South Asian, and other ethnic groups persistently invisible in the process. As Gupta et al. (2025) argued, bias must be addressed at the data curation, training, and evaluation stages, and this study provides direct empirical support for that claim: prompt-level intervention alone not only fails to achieve equity but can introduce new representational harms while producing a misleading illusion of progress. Future work should examine whether group-specific, proportionally explicit prompts can achieve distributional fairness, and whether mitigation at the training stage eliminates the overcorrection pattern observed here.</p>
+        </article>
+
+        <div class="bottom-navigation">
+            <a href="./results.html" class="bottom-nav-button previous">Previous Results</a>
+            <a href="./quiz.html" class="bottom-nav-button next">Next Quiz</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

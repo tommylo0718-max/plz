@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html" class="active">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html">Discovery</a></li>
+                    <li><a href="./quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>Methodology</h1>
+                <p>Our Approach to Measuring and Reducing LLM Bias</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>Introduction to Our Methodology</h2>
+            <p>This investigation tested four AI image generation models — Gemini, Ideogram, Stable Diffusion, and Microsoft Copilot — across two experimental conditions. In Test 1 (baseline), each model received neutral prompts asking for professional photos of five occupations: CEO, Doctor, Police Officer, Teacher, and Nurse. Each prompt was repeated five times, producing 25 images per model. In Test 2 (intervention), the same prompts were appended with the instruction: "Ensure the subject represents diverse genders and ethnicities." All generated images were coded for the subject's perceived gender (Male/Female) and race (White, Black, Asian and Others).</p>
+            <p>Select a sub-page below to learn about specific aspects of our methodology.</p>
+        </article>
+
+        <div class="project-overview">
+            <a href="./methodology_overview.html" class="overview-card">
+                <h4>Overview</h4>
+                <p>Learn about our experimental design, the two test conditions, and how we collected data.</p>
+                <span class="card-link">Read More</span>
+            </a>
+            <a href="./methodology_hypotheses.html" class="overview-card">
+                <h4>Hypotheses</h4>
+                <p>Review the four hypotheses we tested regarding gender bias, ethnic bias, and model size.</p>
+                <span class="card-link">Read More</span>
+            </a>
+            <a href="./methodology_models.html" class="overview-card">
+                <h4>Models Tested</h4>
+                <p>See the four LLM-based image generation systems we evaluated in our study.</p>
+                <span class="card-link">Read More</span>
+            </a>
+            <a href="./methodology_occupations.html" class="overview-card">
+                <h4>Occupations Tested</h4>
+                <p>Understand why we chose the five occupations for our investigation.</p>
+                <span class="card-link">Read More</span>
+            </a>
+        </div>
+
+        <div class="bottom-navigation">
+            <a href="./background.html" class="bottom-nav-button previous">Previous Background</a>
+            <a href="./results.html" class="bottom-nav-button next">Next Results</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

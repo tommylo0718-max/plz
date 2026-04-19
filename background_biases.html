@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Are Biases - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+        .reference-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e1e8ed;
+        }
+        .reference-section h3 {
+            color: #1a3a5c;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .reference-section p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html" class="active">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html">Discovery</a></li>
+                    <li><a href="./quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>What Are Biases in LLMs</h1>
+                <p>Understanding Encoded Stereotypes in AI Systems</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>The Problem: Encoded Stereotypes</h2>
+            <p>"Coding stereotype" means that human prejudice is inadvertently hard-coded into artificial intelligence algorithms. Since large-scale language models are trained based on massive data sets retrieved from the Internet, they will absorb historical biases, cultural stereotypes and unequal representation in these data. Artificial intelligence does not identify these text associations as social defects, but regards them as standard statistical models. Therefore, when the model generates responses or evaluates candidate information, it will copy and amplify the stereotypes of these codes, which may lead to unfair results in high-risk applications such as recruitment.</p>
+            <p>As Gupta et al. (2025) observed, models treat historical statistical associations between gender and profession as standard patterns rather than social defects to be corrected. This means that without deliberate intervention, AI systems will continue to perpetuate and amplify the biases present in their training data.</p>
+            <div class="reference-section">
+                <h3>Reference</h3>
+                <p>Gupta, A., et al. (2025). BiasGym: Fantastic LLM biases and how to find (and remove) them. arXiv preprint arXiv:2508.08855.</p>
+            </div>
+        </article>
+
+        <div class="bottom-navigation">
+            <a href="./background.html" class="bottom-nav-button previous">Previous Background</a>
+            <a href="./background_fairness.html" class="bottom-nav-button next">Next Why Fairness Matters</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

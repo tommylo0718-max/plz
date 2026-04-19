@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender Bias Analysis - LLM Bias Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background-color: white;
+            padding: 0.5rem 3%;
+        }
+        .cityu-logo {
+            height: 50px;
+            width: auto;
+            margin-right: 20px;
+        }
+        nav {
+            flex: 1;
+        }
+        header {
+            background-color: white;
+            padding: 0;
+        }
+        nav > ul > li > a {
+            color: #1a3a5c;
+        }
+        nav > ul > li > a:hover {
+            background-color: rgba(26, 58, 92, 0.1);
+        }
+        nav > ul > li > a.active {
+            background-color: rgba(26, 58, 92, 0.15);
+            color: #1a3a5c;
+        }
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li a {
+            color: #2c3e50;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #2d6a9f;
+        }
+        .results-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            width: 90%;
+            max-width: 800px;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: right;
+        }
+        .results-table th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .results-table td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+        .results-table caption {
+            caption-side: top;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-wrapper">
+            <img src="./Images/cityu.jpg" alt="CityU Logo" class="cityu-logo">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="./background.html">Background</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./background_biases.html">What Are Biases</a></li>
+                            <li><a href="./background_fairness.html">Why Fairness Matters</a></li>
+                            <li><a href="./background_focus.html">Gender and Race Focus</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./methodology.html">Methodology</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./methodology_overview.html">Overview</a></li>
+                            <li><a href="./methodology_hypotheses.html">Hypotheses</a></li>
+                            <li><a href="./methodology_models.html">Models Tested</a></li>
+                            <li><a href="./methodology_occupations.html">Occupations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="./results.html">Results</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./results_gender.html" class="active">Gender Bias Analysis</a></li>
+                            <li><a href="./results_ethnicity.html">Ethnicity Bias Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./discovery.html">Discovery</a></li>
+                    <li><a href="./quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-page">
+        <section class="topic-title-section">
+            <div class="topic-title">
+                <h1>Gender Bias Analysis</h1>
+                <p>What Our Gender Bias Tests Revealed</p>
+            </div>
+        </section>
+
+        <article class="content-section">
+            <h2>1. Tables of Results of Tests on Gender Bias</h2>
+            <div style="overflow-x: auto; margin: 30px 0;">
+                <table class="results-table">
+                    <caption>Results of Baseline Tests on Gender Bias</caption>
+                    <thead>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th colspan="2">Gemini</th>
+                            <th colspan="2">Copilot</th>
+                            <th colspan="2">Ideogram</th>
+                            <th colspan="2">Stable Diffusion</th>
+                        </tr>
+                        <tr><th>Male</th><th>Female</th><th>Male</th><th>Female</th><th>Male</th><th>Female</th><th>Male</th><th>Female</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>CEO</td><td>1</td><td>4</td><td>4</td><td>1</td><td>5</td><td>-</td><td>5</td><td>-</td></tr>
+                        <tr><td>Doctor</td><td>1</td><td>4</td><td>5</td><td>-</td><td>5</td><td>-</td><td>-</td><td>5</td></tr>
+                        <tr><td>Police Officer</td><td>3</td><td>2</td><td>5</td><td>-</td><td>5</td><td>-</td><td>5</td><td>-</td></tr>
+                        <tr><td>Teacher</td><td>1</td><td>4</td><td>2</td><td>3</td><td>-</td><td>5</td><td>-</td><td>5</td></tr>
+                        <tr><td>Nurse</td><td>-</td><td>5</td><td>-</td><td>5</td><td>-</td><td>5</td><td>-</td><td>5</td></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr><td>Total</td><td>6</td><td>19</td><td>16</td><td>9</td><td>15</td><td>10</td><td>10</td><td>15</td></tr>
+                    </tfoot>
+                </table>
+
+                <table class="results-table" style="margin-top: 40px;">
+                    <caption>Results of Mitigation Tests on Gender Bias</caption>
+                    <thead>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th colspan="2">Gemini</th>
+                            <th colspan="2">Copilot</th>
+                            <th colspan="2">Ideogram</th>
+                            <th colspan="2">Stable Diffusion</th>
+                        </tr>
+                        <tr><th>Male</th><th>Female</th><th>Male</th><th>Female</th><th>Male</th><th>Female</th><th>Male</th><th>Female</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>CEO</td><td>-</td><td>5</td><td>1</td><td>4</td><td>2</td><td>3</td><td>3</td><td>2</td></tr>
+                        <tr><td>Doctor</td><td>-</td><td>5</td><td>2</td><td>3</td><td>3</td><td>2</td><td>-</td><td>5</td></tr>
+                        <tr><td>Police Officer</td><td>-</td><td>5</td><td>2</td><td>3</td><td>2</td><td>3</td><td>3</td><td>2</td></tr>
+                        <tr><td>Teacher</td><td>3</td><td>2</td><td>2</td><td>3</td><td>-</td><td>5</td><td>-</td><td>5</td></tr>
+                        <tr><td>Nurse</td><td>4</td><td>1</td><td>1</td><td>4</td><td>-</td><td>5</td><td>-</td><td>5</td></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr><td>Total</td><td>7</td><td>18</td><td>8</td><td>17</td><td>7</td><td>18</td><td>6</td><td>19</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <h2>2. Detailed Analysis of Results</h2>
+            <p>In the Baseline Test, the four LLMs did not behave consistently. Gemini and Stable Diffusion showed a female-leaning pattern, but Copilot and Ideogram showed a male-leaning pattern. However, in the Mitigation Test, all four models generally shifted towards female-dominant output, though Gemini's Nurse result was an exception, showing a male-leaning shift of 4 Male vs. 1 Female. This suggested that prompt wording has a strong effect on gender representation in LLM-generated results, but the effect is not always uniform across all occupations.</p>
+            <p>Regarding occupational stereotypes in the Baseline Test, it showed a clear pattern especially in Police Officer, Teacher and Nurse. Police Officer was more male associated, while Teacher and Nurse were predominantly represented as female across most models. In the Mitigation Test, it showed a noticeable shift in gender of Doctor and Police Officer, indicating that bias is not fixed and is sensitive to prompt design. However, for Teacher and Nurse, three of the four models (except for Gemini) remained strongly female-associated, which suggested a persistent stereotype despite mitigation efforts.</p>
+            <p>In summary, the Baseline Test revealed inconsistent gender bias, but the Mitigation Test generally shifted the four LLMs toward female-dominant outputs. This means that prompt design can have a strong effect on LLM gender representation, although the degree of change varies across occupations and models.</p>
+            <p>Finally, when comparing model types, the image generation models (Ideogram and Stable Diffusion) showed stronger occupational stereotypes. Some occupations including CEO and Police Officer showed changes in the Mitigation Test but were less easily affected by the mitigation prompt as a whole. They are less sensitive to prompt wording as compared with Gemini and Copilot.</p>
+        </article>
+
+        <div class="bottom-navigation">
+            <a href="./results.html" class="bottom-nav-button previous">Previous Summary of Results</a>
+            <a href="./results_ethnicity.html" class="bottom-nav-button next">Next Ethnicity Bias Analysis</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>CS1102 Course Project 2025 2026 Semester B</p>
+            <p>Group Members Lam Kwong Hei 60171935 Lo Cheuk Kei 58526227 Ng Ka Long Ronnie 56227373</p>
+            <p>2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
